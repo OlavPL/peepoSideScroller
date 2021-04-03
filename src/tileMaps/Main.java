@@ -404,67 +404,6 @@ public class Main extends Application {
         pp.setY(-500);
     }
 
-//Creates all the platforms
-/*    private void createPlatforms(){
-        int platH = 30;
-        int platW = 500;
-        final Color platColor = Color.DARKOLIVEGREEN;
-
-        Node startPlatform = createEntity(0, 170, platW, 50, platColor);
-        platforms.add(startPlatform);
-
-        Node winPlatform = createEntity(bgWidth-1000, bgHeight-500, platW, platH, Color.GOLD);
-        platforms.add(winPlatform);
-
-        Node lostPlatform = createEntity(0, bgHeight, bgWidth, platH, platColor);
-        platforms.add(lostPlatform);
-
-        Node platform1 = createEntity(800, 500, platW, platH, platColor);
-        platforms.add(platform1);
-
-        Node platform2 = createEntity(1700, 500, platW, platH, platColor);
-        platforms.add(platform2);
-
-        Node platform3 = createEntity(2400, 350, platW, platH, platColor);
-        platforms.add(platform3);
-
-        Node platform4 = createEntity(5100, 400, platW*3, platH, platColor);
-        platforms.add(platform4);
-
-        Node platform5 = createEntity(6000, 400-1000, 50, 1000, platColor);
-        platforms.add(platform5);
-
-        Node platform6 = createEntity(5600, 900, 300, platH, platColor);
-        platforms.add(platform6);
-
-        Node platform7 = createEntity(2000, 800, platW, platH, platColor);
-        platforms.add(platform7);
-
-        Node platform8 = createEntity(1700, 500, 50, 1000, platColor);
-        platforms.add(platform8);
-
-
-    }*/
-
-// Alternative presentation of Nodes i map
-/*    private void loadPwrPoint(){
-        powerList = new ArrayList<>();
-        PowerUp pp1 = new PowerUp(5800, 340, coinImg60, 0);
-        powerList.add(pp1);
-
-        PowerUp pp2 = new PowerUp(6050, 340, coinImg60, 0);
-        powerList.add(pp2);
-
-        PowerUp pp3 = new PowerUp(2200, 300, speedImg70, 1);
-        powerList.add(pp3);
-
-        PowerUp pp4 = new PowerUp(2600, 300, speedImg70, 1);
-        powerList.add(pp4);
-
-        PowerUp pp5 = new PowerUp(2800, 300, jumpImg70, 2);
-        powerList.add(pp5);
-    }*/
-
     private void updateScore(){
         uiPane.getChildren().remove(score);
         score.setText(""+points);
