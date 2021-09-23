@@ -1,4 +1,4 @@
-# peepoSideScrollerV2
+# peepoSideScroller
 Prototype of a pepe platformer I started for a hackathon. 
 
 You have to set ut javaFX to compile and run.
