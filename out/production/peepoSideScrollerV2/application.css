@@ -1,0 +1,18 @@
+.root{
+    -fx-font: 30px ComicSans;
+    -fx-background-color: CADETBLUE;
+}
+
+.root TilePane{
+    -fx-font: 90% ComicSans;
+}
+
+.tool-select{
+    -fx-pref-tile-height: 75;
+    -fx-pref-tile-Width: 75;
+}
+
+.lvl-input-name{
+    -fx-font: 20px ComicSans;
+}
+
