@@ -230,7 +230,6 @@ public class Main extends Application {
             gamePane.getChildren().add(platform);
         }*/
         root.getChildren().add(gamePane);
-
         uiPane.getChildren().add(coinScore);
         root.getChildren().add(uiPane);
     }
@@ -238,7 +237,6 @@ public class Main extends Application {
 //    ~~Movement and ~~collisions
     //All game logic for the loop
     void update(){
-
         if (keyPressed(KeyCode.W) || keyPressed(KeyCode.UP) || keyPressed(KeyCode.SPACE) && player.getTranslateY() >= 0){
             playerJump();
         }
