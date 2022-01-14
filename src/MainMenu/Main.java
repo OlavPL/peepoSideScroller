@@ -1,15 +1,22 @@
 package MainMenu;
 
+import LevelPlayer.GamePane;
+import V0_2.Meth;
 import javafx.application.Application;
 import javafx.scene.Scene;
+import javafx.scene.input.KeyCode;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
+import java.lang.reflect.Method;
+import java.util.HashMap;
 import java.util.Objects;
+
 
 public class Main extends Application {
     private static Scene scene;
     private static Stage pStage;
+    private HashMap<KeyCode, Boolean> keys;
     @Override
     public void start(Stage stage){
         stage.setHeight(600);
@@ -18,6 +25,7 @@ public class Main extends Application {
 
         scene = new Scene(new MainMenuWindow());
         scene.getStylesheets().add(Objects.requireNonNull(getClass().getResource("../application.css").toExternalForm()));
+        Meth.setFillStage(stage);
         stage.setScene(scene);
         stage.setTitle("EpicGame");
         stage.show();
@@ -28,9 +36,17 @@ public class Main extends Application {
         scene.getStylesheets().add(Objects.requireNonNull(Main.class.getResource("../application.css").toExternalForm()));
         pStage.setScene(scene);
     }
-    public static void addCSS(String s){
 
+    public static void setLevelScene(String url){
+        Pane newPane = new Pane();
+        GamePane tempGP = new GamePane(url, newPane);
+        scene = new Scene(newPane);
+        tempGP.setScene(scene);
+        scene.getStylesheets().add(Objects.requireNonNull(Main.class.getResource("../application.css").toExternalForm()));
+        pStage.setScene(scene);
     }
+
+    public static Scene getScene(){return scene;}
     public static Stage getStage(){
         return pStage;
     }

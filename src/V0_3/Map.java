@@ -33,7 +33,7 @@ public class Map extends Pane {
 
     public static Map newMap(String mapURL){
         try {
-            ArrayList lines = new ArrayList();
+            ArrayList<String> lines = new ArrayList<>();
             int width = 0;
             int height = 0;
             java.io.File file = new File(mapURL);
@@ -51,7 +51,7 @@ public class Map extends Pane {
                 }
             }
 
-            height = lines.size();
+
             Map newMap = new Map(width, height);
             for (int y = 0; y<height; y++){
                 String line = (String)lines.get(y);

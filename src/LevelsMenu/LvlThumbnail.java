@@ -1,5 +1,8 @@
 package LevelsMenu;
 
+import LevelPlayer.GamePane;
+import MainMenu.Main;
+import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
@@ -11,10 +14,11 @@ public class LvlThumbnail extends BorderPane {
     public LvlThumbnail() {
         super();
         setUserData(++levelNum);
-        setCenter(new Label("Lv. "+levelNum));
+        setCenter(new Label("Level: "+levelNum));
         setBorder(lvlBorder);
         setOnMouseClicked(e->{
             System.out.println("Level "+getUserData()+" Selected");
+            Main.setLevelScene("Levels/Level"+getUserData()+".txt");
         });
     }
 

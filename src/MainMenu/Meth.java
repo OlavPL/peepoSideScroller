@@ -1,6 +1,7 @@
 
-package V0_3;
+package MainMenu;
 
+import Units.PointXY;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.image.Image;
 import javafx.scene.shape.Circle;
@@ -50,7 +51,7 @@ public class Meth {
     public boolean circleCircle(Circle a, Circle b){
         PointXY ap = new PointXY(a.getCenterX(), a.getCenterY());
         PointXY ab = new PointXY(b.getCenterX(), b.getCenterY());
-        return Math.sqrt((ap.x-ab.x)*(ap.x-ab.x)+(ap.y-ab.y)*(ap.y-ab.y))<=a.getRadius()+b.getRadius();
+        return Math.sqrt((ap.getX()-ab.getX())*(ap.getX()-ab.getX())+(ap.getY()-ab.getY())*(ap.getY()-ab.getY()))<=a.getRadius()+b.getRadius();
     }
 
 }

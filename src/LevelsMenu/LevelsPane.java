@@ -31,7 +31,7 @@ public class LevelsPane extends BorderPane {
         levelPane.setPadding(new Insets(10));
 
         int amtLevels = 0;
-        try (Stream<Path> files = Files.list(Paths.get("src/Levels"))) {
+        try (Stream<Path> files = Files.list(Paths.get("Levels"))) {
             amtLevels = (int) files.count();
         }catch (IOException IOExc){
             IOExc.printStackTrace();

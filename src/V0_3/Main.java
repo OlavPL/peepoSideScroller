@@ -39,6 +39,7 @@ public class Main extends Application {
     private AnimationTimer pwrSTimer;
     private AnimationTimer pwrJTimer;
 
+    private HashMap<KeyCode, Boolean> keys;
     private final Pane root = new Pane();
     private final Pane gamePane = new Pane();
     private final Pane uiPane = new Pane();
@@ -66,9 +67,6 @@ public class Main extends Application {
     Player player;
     private Point2D playerVelocity = new Point2D(0,0);
     private Point2D tempPlayerVel = new Point2D(0,0);
-
-    private HashMap<KeyCode, Boolean> keys;
-    public KeyCodeCombination ctrlR = new KeyCodeCombination(KeyCode.R, KeyCombination.CONTROL_DOWN);
 
 
     public int powerID = 0;
@@ -211,8 +209,6 @@ public class Main extends Application {
 
         Map map1 = Map.newMap("maps/map1");
         map1.loadMap(gamePane);
-//        platforms = new ArrayList<>();
-//        platforms.addAll(map1.getPlatforms());
 
         platforms = new ArrayList<>();
         platforms.addAll(map1.Platforms());
@@ -222,13 +218,6 @@ public class Main extends Application {
         powerList.addAll(map1.Speeds());
         powerList.addAll(map1.Jumps());
 
-/*      loadPwrPoint();
-        for (int i = 0; i < powerList.size(); i++) {
-            gamePane.getChildren().add(powerList.get(i));
-        }
-        for (Node platform : platforms){
-            gamePane.getChildren().add(platform);
-        }*/
         root.getChildren().add(gamePane);
         uiPane.getChildren().add(coinScore);
         root.getChildren().add(uiPane);
@@ -341,27 +330,28 @@ public class Main extends Application {
             } else {
 //Collision check
                 if (powerCol(powerList))
-                if (player.falling) {
-                    for (int j = 0; j<platforms.size(); j++) {
-                        if (player.getBoundsInParent().intersects(platforms.get(j).getBoundsInParent())) {
-                            if (player.getTranslateY() + player.getPlayerHeight() == platforms.get(j).getTranslateY()) {
-                                player.setTranslateY(player.getTranslateY() - 1);
-                                player.canJump = true;
-                                return;
+                    if (player.falling) {
+                        for (int j = 0; j<platforms.size(); j++) {
+                            if (player.getBoundsInParent().intersects(platforms.get(j).getBoundsInParent())) {
+                                if (player.getTranslateY() + player.getPlayerHeight() == platforms.get(j).getTranslateY()) {
+                                    player.setTranslateY(player.getTranslateY() - 1);
+                                    player.canJump = true;
+                                    return;
 
+                                }
                             }
                         }
                     }
-                }else{
-                    for (int j = 0; j<platforms.size(); j++) {
-                        if (player.getBoundsInParent().intersects(platforms.get(j).getBoundsInParent())) {
-                            if (player.getTranslateY() == platforms.get(j).getTranslateY()+platforms.get(j).getHeight()){
-                                player.setTranslateY(player.getTranslateY() + 1);
-                                return;
+                    else{
+                        for (int j = 0; j<platforms.size(); j++) {
+                            if (player.getBoundsInParent().intersects(platforms.get(j).getBoundsInParent())) {
+                                if (player.getTranslateY() == platforms.get(j).getTranslateY()+platforms.get(j).getHeight()){
+                                    player.setTranslateY(player.getTranslateY() + 1);
+                                    return;
+                                }
                             }
                         }
                     }
-                }
                 player.setTranslateY(player.getTranslateY() + (player.falling? 1:-1));
             }
         }
@@ -370,8 +360,7 @@ public class Main extends Application {
     //Powers Collider
     private boolean powerCol( ArrayList<PowerUp> al){
         if (!al.isEmpty()) {
-            for (PowerUp pp : powerList) {
-                int index = al.indexOf(pp);
+            for (PowerUp pp : al) {
                 if (player.getBoundsInParent().intersects(pp.getX(),pp.getY(),ppSize,ppSize)) {
                     points++;
                     updateScore();
@@ -394,7 +383,7 @@ public class Main extends Application {
         pp.setY(-500);
     }
 
-    private void updateScore(){
+    public void updateScore(){
         uiPane.getChildren().remove(score);
         score.setText(""+points);
         uiPane.getChildren().add(score);

@@ -1,4 +1,4 @@
-package V0_3;
+package Units;
 
 import javafx.geometry.Rectangle2D;
 import javafx.scene.image.Image;
@@ -7,10 +7,10 @@ import javafx.scene.layout.Pane;
 
 public class Sprite extends ImageView implements Cloneable{
 
-    double velX;
-    double velY;
-    double width;
-    double height;
+    protected double velX;
+    protected double velY;
+    private double width;
+    private double height;
 
     public Sprite(){
         velX = 0;
@@ -115,6 +115,14 @@ public class Sprite extends ImageView implements Cloneable{
     }
     public double getWidth(){
             return this.getBoundsInLocal().getWidth();
+    }
+    public void setHeight(double n){
+        height = n;
+        setFitHeight(n);
+    }
+    public void setWidth(double n){
+        width = n;
+        setFitWidth(n);
     }
     public Rectangle2D getView(){
         return this.getViewport();
