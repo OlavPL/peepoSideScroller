@@ -10,6 +10,8 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.TilePane;
 import javafx.scene.text.Font;
+
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -30,16 +32,14 @@ public class LevelsPane extends BorderPane {
         levelPane.setVgap(10);
         levelPane.setPadding(new Insets(10));
 
-        int amtLevels = 0;
-        try (Stream<Path> files = Files.list(Paths.get("Levels"))) {
-            amtLevels = (int) files.count();
-        }catch (IOException IOExc){
-            IOExc.printStackTrace();
+
+        File dir = new File("Levels");
+        File[] directoryListing = dir.listFiles();
+        if (directoryListing == null) {
+            return;
         }
-        if(amtLevels > 0) {
-            for (int i = 0; i < amtLevels; i++) {
-                levelPane.getChildren().add(new LvlThumbnail());
-            }
+        for (File file : directoryListing) {
+            levelPane.getChildren().add(new LvlThumbnail(file.getName()));
         }
 
         Button mainMenu = new Button("Main Menu");

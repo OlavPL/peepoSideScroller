@@ -2,6 +2,7 @@
   <library name="lib">
     <CLASSES>
       <root url="file://$PROJECT_DIR$/../../../../Program Files/Java/javafx-sdk-17.0.1/lib" />
+      <root url="jar://$PROJECT_DIR$/../../../../Program Files/Java/lombok.jar!/" />
     </CLASSES>
     <JAVADOC />
     <SOURCES />

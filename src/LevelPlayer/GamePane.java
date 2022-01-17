@@ -71,10 +71,6 @@ public class GamePane extends Pane {
                 lines.add(line);
                 width = Math.max(width, line.length());
                 height++;
-//                if (!line.startsWith("/")){
-//                    lines.add(line);
-//                    width = Math.max(width, line.length());
-
             }
 
             height = lines.size();

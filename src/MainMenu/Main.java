@@ -1,14 +1,11 @@
 package MainMenu;
 
 import LevelPlayer.GamePane;
-import V0_2.Meth;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
-
-import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Objects;
 
@@ -16,7 +13,6 @@ import java.util.Objects;
 public class Main extends Application {
     private static Scene scene;
     private static Stage pStage;
-    private HashMap<KeyCode, Boolean> keys;
     @Override
     public void start(Stage stage){
         stage.setHeight(600);

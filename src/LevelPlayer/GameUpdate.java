@@ -137,77 +137,80 @@ public class GameUpdate extends AnimationTimer {
             player.moveLeft();
         }
         for (int i = 0; i < Math.abs(value); i++) {
-            if (powerCol(pane, pane.getPowerList()))
-                for (Platform platform : pane.getPlatforms()) {
-                    if (player.getBoundsInParent().intersects(platform.getBoundsInParent())) {
-                        if (movingRight) {
-                            if (player.getTranslateX() + player.getWidth() == platform.getTranslateX()) {
-                                player.setTranslateX(player.getTranslateX() - 1);
-                                return;
-                            }
-                        } else {
-                            if (player.getTranslateX() == platform.getTranslateX() + platform.getBoundsInParent().getWidth()) {
-                                player.setTranslateX(player.getTranslateX() + 1);
-                                return;
-                            }
+            powerCol(pane, pane.getPowerList());
+            for (Platform platform : pane.getPlatforms()) {
+                if (player.getBoundsInParent().intersects(platform.getBoundsInParent())) {
+                    if (movingRight) {
+                        if (player.getTranslateX() + player.getWidth() == platform.getTranslateX()) {
+                            player.setTranslateX(player.getTranslateX() - 1);
+                            return;
+                        }
+                    } else {
+                        if (player.getTranslateX() == platform.getTranslateX() + platform.getBoundsInParent().getWidth()) {
+                            player.setTranslateX(player.getTranslateX() + 1);
+                            return;
                         }
                     }
                 }
-            player.setTranslateX(player.getTranslateX() + (movingRight ? 1:-1));
+            }
+        player.setTranslateX(player.getTranslateX() + (movingRight ? 1:-1));
         }
     }
 
     //Y-Axis player logic
     private void playerMoveY(int value, GamePane pane){
 
-        player.setIsFalling(value > 0);
-        for (int i = 0; i < Math.abs(value); i++) {
+    player.setIsFalling(value > 0);
+    for (int i = 0; i < Math.abs(value); i++) {
 //Win state
-            if (player.getBoundsInParent().intersects(pane.getPlatforms().get(0).getBoundsInParent())) {
-                win();
+        if (player.getBoundsInParent().intersects(pane.getPlatforms().get(0).getBoundsInParent())) {
+            win();
+            return;
+        }
 //Loss state
-            } else if (player.getTranslateY()+player.getHeight() >= pane.getHeight()){
-                lose();
-            } else {
-//Collision check
-                if (powerCol(pane, pane.getPowerList()))
-                    if (player.isFalling()) {
-                        for (Platform platform : pane.getPlatforms()) {
-                            if (player.getBoundsInParent().intersects(platform.getBoundsInParent())) {
-                                if (player.getTranslateY() + player.getHeight() == platform.getTranslateY()) {
-                                    player.setTranslateY(player.getTranslateY() - 1);
-                                    player.setCanJump(true);
-                                    return;
-                                }
-                            }
-                        }
+        if (player.getTranslateY()+player.getHeight() >= pane.getHeight()){
+            lose();
+            return;
+        }
+        //Collision check
+        powerCol(pane, pane.getPowerList());
+        if (player.isFalling()) {
+            for (Platform platform : pane.getPlatforms()) {
+                if (player.getBoundsInParent().intersects(platform.getBoundsInParent())) {
+                    if (player.getTranslateY() + player.getHeight() == platform.getTranslateY()) {
+                        player.setTranslateY(player.getTranslateY() - 1);
+                        player.setCanJump(true);
+                        return;
                     }
-                else{
-                        for (Platform platform : pane.getPlatforms()) {
-                            if (player.getBoundsInParent().intersects(platform.getBoundsInParent())) {
-                                if (player.getTranslateY() == platform.getTranslateY() + platform.getHeight()) {
-                                    player.setTranslateY(player.getTranslateY() + 1);
-                                    return;
-                                }
-                            }
-                        }
-                    }
-                player.setTranslateY(player.getTranslateY() + (player.isFalling()? 1:-1));
+                }
             }
+        }
+
+        for (Platform platform : pane.getPlatforms()) {
+            if (player.getBoundsInParent().intersects(platform.getBoundsInParent())) {
+                if (player.getTranslateY() == platform.getTranslateY() + platform.getHeight()) {
+                    player.setTranslateY(player.getTranslateY() - 1);
+                    return;
+                }
+            }
+        }
+
+        player.setTranslateY(player.getTranslateY() + (player.isFalling()? 1:-1));
         }
     }
 
-    private boolean powerCol(GamePane pane, ArrayList<PowerUp> al){
-        if (!al.isEmpty()) {
+    private void powerCol(GamePane pane, ArrayList<PowerUp> al){
+        try {
             for (PowerUp pp : al) {
-                if (player.getBoundsInParent().intersects(pp.getX(),pp.getY(), pp.getSize(),pp.getSize())) {
-                    removePowerUp(pane, pp);
+                if (player.getBoundsInParent().intersects(pp.getX(), pp.getY(), pp.getSize(), pp.getSize())) {
                     pp.givePower(player);
+                    removePowerUp(pane, pp);
                 }
             }
-            return true;
         }
-        return false;
+        catch (NullPointerException NPexc) {
+            NPexc.printStackTrace();
+        }
     }
 
     public void win() {

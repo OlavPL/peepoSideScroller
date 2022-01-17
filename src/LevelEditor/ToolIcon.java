@@ -4,7 +4,7 @@ import javafx.scene.layout.*;
 
 public class ToolIcon extends Icon {
 
-    public ToolIcon(char c, TilePane pane, String s){
+    public ToolIcon(char c, Pane pane, String s){
         super( c, pane, s);
         EditorPane.setBackground(this, s);
     }

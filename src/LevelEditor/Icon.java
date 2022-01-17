@@ -12,7 +12,7 @@ public class Icon extends Pane{
     protected static final Border emptyBorder = new Border(new BorderStroke(Color.PINK, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.EMPTY));
     protected static final Border selectedBorder = new Border(new BorderStroke(Color.PINK, BorderStrokeStyle.SOLID, CornerRadii.EMPTY,new BorderWidths(1)));
 
-    public Icon(char c, TilePane pane, String s){
+    public Icon(char c, Pane pane, String s){
         setIdentifier(c);
         onClick(pane);
         setImagePath(s);

@@ -11,7 +11,7 @@ public class GridIcon extends Icon{
             CornerRadii.EMPTY, new BorderWidths(1))
     );
 
-    public GridIcon(char c, TilePane pane){
+    public GridIcon(char c, GridPane pane){
         super(c, pane, "");
         setBorder(idleBorder);
         setMaxSize(20,20);
