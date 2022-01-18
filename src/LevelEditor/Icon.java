@@ -4,6 +4,11 @@ import javafx.collections.ObservableList;
 import javafx.scene.Node;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
+import lombok.Getter;
+import lombok.Setter;
+
+@Setter
+@Getter
 
 public class Icon extends Pane{
     private String imagePath;
@@ -11,6 +16,7 @@ public class Icon extends Pane{
     private boolean isSelected = false;
     protected static final Border emptyBorder = new Border(new BorderStroke(Color.PINK, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.EMPTY));
     protected static final Border selectedBorder = new Border(new BorderStroke(Color.PINK, BorderStrokeStyle.SOLID, CornerRadii.EMPTY,new BorderWidths(1)));
+    protected static final Border gridBorder = new Border(new BorderStroke(Color.GRAY, BorderStrokeStyle.SOLID, CornerRadii.EMPTY,new BorderWidths(1)));
 
     public Icon(char c, Pane pane, String s){
         setIdentifier(c);
@@ -19,12 +25,14 @@ public class Icon extends Pane{
     }
 
     protected void select(ObservableList<Node> list){
-        isSelected = true;
+        setSelected(true);
         for (Node t: list) {
-            Icon ti = (Icon)t;
             if(!t.equals(this)){
-                ti.setSelect(false);
-                ti.setBorder(emptyBorder);
+                Icon ti = (Icon) t;
+                if(ti.isSelected()) {
+                    ti.setSelected(false);
+                }
+                ti.setBorder(gridBorder);
             }
         }
     }
@@ -32,17 +40,11 @@ public class Icon extends Pane{
     protected void onClick(Pane p){
         setOnMousePressed(ev -> {
             select(p.getChildren());
-            if (getSelect()) {setBorder(selectedBorder);}
-            else            {setBorder(emptyBorder);}
+            if (isSelected()) {setBorder(selectedBorder);}
+            else            {setBorder(gridBorder);}
         });
     }
 
-    public void setImagePath(String s){imagePath = s;}
-    public String getImagePath(){return imagePath;}
-    public void setSelect(boolean b){isSelected = b;}
-    public boolean getSelect(){return isSelected;}
-    public char getIdentifier(){return identifier;}
-    public void setIdentifier(char c){identifier = c;}
 }
 
 

@@ -10,13 +10,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.TilePane;
 import javafx.scene.text.Font;
-
 import java.io.File;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.stream.Stream;
 
 public class LevelsPane extends BorderPane {
 
@@ -39,13 +33,13 @@ public class LevelsPane extends BorderPane {
             return;
         }
         for (File file : directoryListing) {
-            levelPane.getChildren().add(new LvlThumbnail(file.getName()));
+            String s = file.getName();
+            levelPane.getChildren().add(new LvlThumbnail(s));
         }
 
         Button mainMenu = new Button("Main Menu");
         mainMenu.setOnAction(e-> {
             Main.setScene(new MainMenuWindow());
-            LvlThumbnail.exitScene();
         });
 
 

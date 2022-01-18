@@ -4,6 +4,9 @@ import javafx.scene.layout.*;
 
 public class ToolIcon extends Icon {
 
+    public ToolIcon(char c, Pane pane){
+        super( c, pane, "");
+    }
     public ToolIcon(char c, Pane pane, String s){
         super( c, pane, s);
         EditorPane.setBackground(this, s);
@@ -11,10 +14,10 @@ public class ToolIcon extends Icon {
 
     @Override
     protected void onClick(Pane p){
-        setOnMouseClicked(ev -> {
+        setOnMousePressed(ev -> {
             EditorPane.setTool(this);
             select(p.getChildren());
-            if (getSelect()) {setBorder(selectedBorder);}
+            if (isSelected()) {setBorder(selectedBorder);}
             else            {setBorder(emptyBorder);}
         });
     }

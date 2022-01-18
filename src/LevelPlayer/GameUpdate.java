@@ -1,6 +1,8 @@
 package LevelPlayer;
 
+import LevelsMenu.LevelsPane;
 import MainMenu.Main;
+import MainMenu.MainMenuWindow;
 import Units.Platform;
 import Units.Player;
 import Units.PowerUp;
@@ -11,11 +13,9 @@ import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
-import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
-
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
@@ -26,7 +26,6 @@ public class GameUpdate extends AnimationTimer {
     private final Player player;
     private final GamePane pane;
 
-    private Button tryAgain;
     private Text endGameText;
     private Text endGameText2;
 
@@ -139,6 +138,10 @@ public class GameUpdate extends AnimationTimer {
         for (int i = 0; i < Math.abs(value); i++) {
             powerCol(pane, pane.getPowerList());
             for (Platform platform : pane.getPlatforms()) {
+                if (player.getBoundsInParent().intersects(pane.getPlatforms().get(0).getBoundsInParent())) {
+                    win();
+                    return;
+                }
                 if (player.getBoundsInParent().intersects(platform.getBoundsInParent())) {
                     if (movingRight) {
                         if (player.getTranslateX() + player.getWidth() == platform.getTranslateX()) {
@@ -220,20 +223,20 @@ public class GameUpdate extends AnimationTimer {
         pane.getChildren().clear();
 
         endGameText = new Text(10,50,"You won!");
-        endGameText.setTranslateX(250); endGameText.setTranslateY(200);
+        endGameText.setTranslateX(740); endGameText.setTranslateY(200);
         endGameText.setFont(new Font("comic sans", 100));
         endGameText.setFill(Color.GOLD);
         endGameText.setStroke(Color.BLACK);
 
         endGameText2 = new Text(10,50,"EPIC");
-        endGameText2.setTranslateX(350); endGameText2.setTranslateY(300);
+        endGameText2.setTranslateX(850); endGameText2.setTranslateY(300);
         endGameText2.setFont(new Font("comic sans", 100));
         endGameText2.setFill(Color.GOLD);
         endGameText2.setStroke(Color.BLACK);
 
-        againButton("Let's GO AGANE");
         wonTimer.start();
-        pane.getChildren().addAll(wBGIV,peepoHappy, endGameText, endGameText2, tryAgain);
+        pane.getChildren().addAll(wBGIV,peepoHappy, endGameText, endGameText2);
+        againButton("Let's GO AGANE");
     }
 
     public void lose(){
@@ -247,22 +250,37 @@ public class GameUpdate extends AnimationTimer {
         endGameText.setTranslateY(200);
         endGameText.setFont(new Font("comic sans", 100));
         endGameText.setFill(Color.DARKBLUE);
+        pane.getChildren().addAll(lBGIV,ohno, endGameText);
         againButton("Go Agane");
-        pane.getChildren().addAll(lBGIV,ohno, endGameText, tryAgain);
         lostTimer.start();
     }
 
     private void againButton(String text) {
-        tryAgain = new Button(text);
+        Button tryAgain = new Button(text);
         tryAgain.setPrefSize(200,50);
         tryAgain.setFont(new Font(20));
         tryAgain.setTranslateX(860);
         tryAgain.setTranslateY(515);
 
-        tryAgain.setOnAction(actionEvent -> {
-            restartLevel();
-        });
+        Button levelsbtn = new Button("Back to Levels");
+        levelsbtn.setPrefSize(200,50);
+        levelsbtn.setFont(new Font(20));
+        levelsbtn.setTranslateX(860);
+        levelsbtn.setTranslateY(590);
+
+        Button mainMenubtn = new Button("Main Menu");
+        mainMenubtn.setPrefSize(200,50);
+        mainMenubtn.setFont(new Font(20));
+        mainMenubtn.setTranslateX(860);
+        mainMenubtn.setTranslateY(665);
+
+        tryAgain.setOnAction(e -> restartLevel());
+        levelsbtn.setOnAction(e-> Main.setScene(new LevelsPane()));
+        mainMenubtn.setOnAction(e-> Main.setScene(new MainMenuWindow()));
+
+        pane.getChildren().addAll(tryAgain, levelsbtn, mainMenubtn);
     }
+
 
     private void restartLevel(){
 //        try {
@@ -292,20 +310,19 @@ public class GameUpdate extends AnimationTimer {
         GamePane.updateScore();
         GamePane.getCoinScore().getChildren().add(pp);
     }
-    public Player getPlayer(){return player;}
 
     public void removePowerUp(GamePane pane, PowerUp pp){
         pane.getChildren().remove(pp);
     }
 
     public void setScene(Scene scene){
-        scene.setOnKeyPressed(event -> {
-            keys.put(event.getCode(), true);
+        scene.setOnKeyPressed(e -> {
+            keys.put(e.getCode(), true);
         });
-        scene.setOnKeyReleased(event -> {
-            keys.put(event.getCode(), false);
+        scene.setOnKeyReleased(e -> {
+            keys.put(e.getCode(), false);
 
-            if (event.getCode() == KeyCode.S){
+            if (e.getCode() == KeyCode.S){
                 player.setVelocity(new Point2D(0,10));
             }
         });

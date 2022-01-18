@@ -3,9 +3,14 @@ package Units;
 import javafx.animation.AnimationTimer;
 import javafx.geometry.Point2D;
 import javafx.scene.image.Image;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+
+@Getter
+@Setter
 
 public class Player extends Sprite {
     Image moveRight;
@@ -70,16 +75,10 @@ public class Player extends Sprite {
         }
     }
 
-    public boolean getCanJump(){return canJump;}
-    public void setCanJump(boolean bool){canJump = bool;}
     public boolean isFalling(){return isFalling;}
     public void setIsFalling(boolean bool){isFalling = bool;}
     public void moveLeft(){setIV(moveLeft);}
     public void moveRight(){setIV(moveRight);}
-    public int getXSpeed(){return xSpeed;}
-    public void setXSpeed(int speed){xSpeed = speed;}
-    public int getYSpeed(){return ySpeed;}
-    public void setYSpeed(int speed){ySpeed = speed;}
 
     public void jumpPowerUp(int duration, int speed){
         jCounter = duration;
@@ -91,13 +90,4 @@ public class Player extends Sprite {
         setXSpeed(speed);
         pwrSTimer.start();
     }
-
-    public Point2D getVelocity() {return Velocity;}
-    public void setVelocity(Point2D velocity) {Velocity = velocity;}
-    public Point2D getTempVelocity() {return tempVelocity;}
-    public void setTempVelocity(Point2D tempVelocity) {
-        this.tempVelocity = tempVelocity;
-    }
-
-
 }

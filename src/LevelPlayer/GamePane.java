@@ -15,7 +15,6 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
-
 import java.io.*;
 import java.util.*;
 
@@ -44,7 +43,7 @@ public class GamePane extends Pane {
             background.setX(0);
             player = new Player();
             getChildren().addAll(background, player);
-            Image coinImg, speedImg, jumpImg, peepoHappy;
+            Image coinImg, speedImg, jumpImg;
             platforms = new ArrayList<>();
             coins = new ArrayList<>();
             speeds = new ArrayList<>();
@@ -84,13 +83,10 @@ public class GamePane extends Pane {
                     }
                     else{
                         switch (ch) {
-                            case '#' -> {platforms.add(new Platform(
+                            case '#' -> platforms.add(new Platform(
                                     x * tileSize, y * tileSize, tileSize, tileSize, Color.DARKOLIVEGREEN));
-                            }
-                            case '1' -> {
-                                platforms.add(0, new Platform(
+                            case '1' -> platforms.add(0, new Platform(
                                         x * tileSize, y * tileSize, tileSize, tileSize, Color.GOLD));
-                            }
                             case '2' -> coins.add(new PowerUp(x * tileSize, y * tileSize, coinImg,  PowerUpType.Coin));
                             case '3' -> speeds.add(new PowerUp(x * tileSize, y * tileSize, speedImg,16, 120, PowerUpType.Speed));
                             case '4' -> jumps.add(new PowerUp(x * tileSize, y * tileSize, jumpImg,50, 120, PowerUpType.Jump));
@@ -173,7 +169,7 @@ public class GamePane extends Pane {
         coins.clear();
         jumps.clear();
         speeds.clear();
-    };
+    }
     public static ArrayList<PowerUp> Coins() {return coins;}
     public static ArrayList<PowerUp> Jumps() {return jumps;}
     public static ArrayList<PowerUp> Speeds() {return speeds;}
