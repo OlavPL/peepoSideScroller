@@ -5,6 +5,8 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 
+import java.util.Objects;
+
 public class Sprite extends ImageView implements Cloneable{
 
     protected double velX;
@@ -68,14 +70,16 @@ public class Sprite extends ImageView implements Cloneable{
         height = h;
     }
     public void setIV(String s){
-        Image i = new Image(s);
+        Image i = new Image(Objects.requireNonNull(
+                getClass().getClassLoader().getResourceAsStream(s)));
         setIV(i);
     }
     public void setIV(ImageView iv){
         this.setImage(iv.getImage());
     }
     public void setIV(String s, double w, double h){
-        Image i = new Image(s);
+        Image i = new Image(Objects.requireNonNull(
+                getClass().getClassLoader().getResourceAsStream(s)));
         setIV(i, w, h);
     }
     public ImageView getIV(){

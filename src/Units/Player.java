@@ -8,6 +8,7 @@ import lombok.Setter;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.util.Objects;
 
 @Getter
 @Setter
@@ -32,11 +33,15 @@ public class Player extends Sprite {
 
     public Player(){
         super();
-        try {
+//        try {
             velX = 0;
             velY = 0;
-            moveRight = new Image(new FileInputStream("images/peepoSpeedR.gif"));
-            moveLeft = new Image(new FileInputStream("images/peepoSpeedL.gif"));
+            moveRight = new Image(
+                    Objects.requireNonNull(getClass().getClassLoader().
+                            getResourceAsStream( "Images/peepoSpeedR.GIF")));
+            moveLeft = new Image(
+                    Objects.requireNonNull(getClass().getClassLoader().
+                            getResourceAsStream( "Images/peepoSpeedL.GIF")));
             setIV(moveRight);
             setWidth(60);
             setHeight(60);
@@ -62,9 +67,9 @@ public class Player extends Sprite {
                 }
             };
 
-        }catch (FileNotFoundException FNFexc){
-            FNFexc.printStackTrace();
-        }
+//        }catch (FileNotFoundException FNFexc){
+//            FNFexc.printStackTrace();
+//        }
     }
 
 

@@ -1,3 +1,3 @@
 Manifest-Version: 1.0
-Main-Class: V0_3.Main
+Main-Class: MainMenu.Launcher
 

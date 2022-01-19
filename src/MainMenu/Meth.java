@@ -1,6 +1,7 @@
 
 package MainMenu;
 
+import LevelsMenu.LevelsPane;
 import Units.PointXY;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.image.Image;
@@ -10,6 +11,14 @@ import javafx.stage.Stage;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.net.URI;
+import java.nio.file.FileSystems;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.Collections;
+import java.util.Objects;
+import static LevelsMenu.LevelsPane.fileSystem;
 
 public class Meth {
 
@@ -54,4 +63,26 @@ public class Meth {
         return Math.sqrt((ap.getX()-ab.getX())*(ap.getX()-ab.getX())+(ap.getY()-ab.getY())*(ap.getY()-ab.getY()))<=a.getRadius()+b.getRadius();
     }
 
+    public static Path getLevelPath(URI uri) {
+        Path myPath;
+        if (uri.getScheme().equals("jar")) {
+            try {
+                if (!fileSystem.isOpen()) {
+                    fileSystem = FileSystems.newFileSystem(uri, Collections.<String, Object>emptyMap());
+                }
+            } catch (NullPointerException NPexc) {
+                try {
+                    fileSystem = FileSystems.newFileSystem(uri, Collections.<String, Object>emptyMap());
+                }catch (IOException IOexc){
+                    IOexc.printStackTrace();
+                }
+            }catch (IOException IOexc){
+            IOexc.printStackTrace();
+            }
+            myPath = fileSystem.getPath("Levels");
+        } else {
+            myPath = Paths.get(uri);
+        }
+        return myPath;
+    }
 }

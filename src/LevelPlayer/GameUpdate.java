@@ -20,6 +20,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Objects;
 
 public class GameUpdate extends AnimationTimer {
     private HashMap<KeyCode, Boolean> keys = new HashMap<>();
@@ -31,10 +32,10 @@ public class GameUpdate extends AnimationTimer {
 
     public AnimationTimer wonTimer;
     public AnimationTimer lostTimer;
-    private  ImageView wBGIV;
-    private  ImageView lBGIV;
-    private  ImageView peepoHappy;
-    private  ImageView ohno;
+    private final ImageView wBGIV;
+    private final ImageView lBGIV;
+    private final ImageView peepoHappy;
+    private final ImageView ohno;
 
     private static int points = 0;
 
@@ -44,19 +45,22 @@ public class GameUpdate extends AnimationTimer {
         points = 0;
         this.pane = pane;
         this.player = player;
-        try {
-            ohno = new ImageView(new Image(new FileInputStream("images/ohno.png")));
-            peepoHappy = new ImageView(new Image(new FileInputStream("images/peepoHappy.png")));
-            lBGIV = new ImageView(new Image(new FileInputStream("images/lossBackground.png")));
+            ohno = new ImageView(new Image(
+                    Objects.requireNonNull(getClass().getClassLoader().
+                            getResourceAsStream( "Images/ohno.PNG"))));
+            peepoHappy = new ImageView(new Image(
+                    Objects.requireNonNull(getClass().getClassLoader().
+                            getResourceAsStream( "Images/peepoHappy.PNG"))));
+            lBGIV = new ImageView(new Image(
+                    Objects.requireNonNull(getClass().getClassLoader().
+                            getResourceAsStream( "Images/lossBackground.PNG"))));
             lBGIV.setX(0);
             lBGIV.setY(0);
-            wBGIV = new ImageView(new Image(new FileInputStream("images/valentineWon.png")));
+            wBGIV = new ImageView(new Image(
+                    Objects.requireNonNull(getClass().getClassLoader().
+                            getResourceAsStream( "Images/valentineWon.PNG"))));
             wBGIV.setX(0);
             wBGIV.setY(0);
-
-        }catch (FileNotFoundException FNFexc){
-            FNFexc.printStackTrace();
-        }
 
         wonTimer = new AnimationTimer() {
 
@@ -192,7 +196,7 @@ public class GameUpdate extends AnimationTimer {
         for (Platform platform : pane.getPlatforms()) {
             if (player.getBoundsInParent().intersects(platform.getBoundsInParent())) {
                 if (player.getTranslateY() == platform.getTranslateY() + platform.getHeight()) {
-                    player.setTranslateY(player.getTranslateY() - 1);
+                    player.setTranslateY(player.getTranslateY() + 1);
                     return;
                 }
             }

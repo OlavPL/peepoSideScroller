@@ -1,5 +1,6 @@
 package LevelPlayer;
 
+import LevelEditor.EditorPane;
 import MainMenu.Main;
 import MainMenu.Meth;
 import Units.Player;
@@ -16,11 +17,11 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import java.io.*;
+import java.nio.file.Path;
 import java.util.*;
 
 public class GamePane extends Pane {
 
-    String mapUrl;
     private static Pane rootPane;
     private static Pane uiPane = new Pane();
     private static HBox coinScore = new HBox();
@@ -32,13 +33,16 @@ public class GamePane extends Pane {
     private ArrayList<Platform> platforms;
     private static ArrayList<PowerUp> coins, speeds, jumps;
     ImageView background;
-
-    public GamePane(String mapURL, Pane rpane){
-        try {
+    String path;
+    public GamePane(String path, Pane rpane){
+//        try {
+        this.path = path;
             uiPane = new Pane();
             coinScore = new HBox();
             rootPane = rpane;
-            background = new ImageView(new Image(new FileInputStream( "images/valentineMapBig.png")));
+            background = new ImageView(new Image (
+                    Objects.requireNonNull(getClass().getClassLoader().
+                    getResourceAsStream( "Images/valentineMapBig.PNG"))));
             background.setX(0);
             background.setX(0);
             player = new Player();
@@ -48,28 +52,39 @@ public class GamePane extends Pane {
             coins = new ArrayList<>();
             speeds = new ArrayList<>();
             jumps = new ArrayList<>();
-            coinImg = new Image(new FileInputStream("images/pepeCoin60.png"));
-            speedImg = new Image(new FileInputStream("images/peepoRun50.png"));
-            jumpImg = new Image(new FileInputStream("images/peepoJump50.png"));
+            coinImg = new Image (
+                    Objects.requireNonNull(getClass().getClassLoader().
+                            getResourceAsStream("Images/pepeCoin60.PNG")));
+            speedImg = new Image (
+                    Objects.requireNonNull(getClass().getClassLoader().
+                            getResourceAsStream("Images/peepoRun50.PNG")));
+            jumpImg = new Image (
+                    Objects.requireNonNull(getClass().getClassLoader().
+                            getResourceAsStream("Images/peepoJump50.PNG")));
 
             gameUpdate = new GameUpdate(player,this);
 
             ArrayList<String> lines = new ArrayList<>();
             int width = 0;
             int height = 0;
-            this.mapUrl = mapURL;
-            File file = new File(mapURL);
-            BufferedReader reader = new BufferedReader(new FileReader(file));
+            try {
+                InputStream in = getClass().getResourceAsStream(path);
+                assert in != null;
+                BufferedReader reader = new BufferedReader(new InputStreamReader(in));
 
-            while (true){
-                String line = reader.readLine();
-                if (line == null) {
-                    reader.close();
-                    break;
+                while (true) {
+                    String line = reader.readLine();
+                    if (line == null) {
+                        reader.close();
+                        break;
+                    }
+                    lines.add(line);
+                    width = Math.max(width, line.length());
+                    height++;
                 }
-                lines.add(line);
-                width = Math.max(width, line.length());
-                height++;
+            }catch (IOException IOexc){
+                IOexc.printStackTrace();
+                System.out.println("REEEEEEEEEEEEEEEEEEE");
             }
 
             height = lines.size();
@@ -121,9 +136,9 @@ public class GamePane extends Pane {
             setHeight(height*50);
             gameUpdate.start();
 
-        } catch (IOException FNFexc){
-            FNFexc.printStackTrace();
-        }
+//        } catch (IOException FNFexc){
+//            FNFexc.printStackTrace();
+//        }
     }
 
     private void moveView() {
@@ -178,7 +193,7 @@ public class GamePane extends Pane {
         return uiPane;
     }
     public void restartLevel() {
-        Main.setLevelScene(mapUrl);
+        Main.setLevelScene(path);
     }
     public void setScene(Scene scene){
         gameUpdate.setScene(scene);

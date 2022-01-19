@@ -1,10 +1,14 @@
 package LevelEditor;
 
+import LevelsMenu.LevelsPane;
+import LevelsMenu.LvlThumbnail;
+import MainMenu.Meth;
 import Methods.Methods;
 import MainMenu.Main;
 import MainMenu.MainMenuWindow;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
@@ -12,9 +16,15 @@ import javafx.scene.image.Image;
 import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.*;
 import java.io.*;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.nio.file.FileSystems;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Collections;
+import java.util.Iterator;
+import java.util.Objects;
 import java.util.stream.Stream;
 
 import javafx.scene.paint.Color;
@@ -40,15 +50,15 @@ public class EditorPane extends BorderPane {
         Button exitBtn = new Button("Exit");
         exitBtn.setOnAction(e-> Main.setScene(new MainMenuWindow()));
 
-        ToolIcon tool1 = new ToolIcon('@', toolPane, "Images/player.png");
+        ToolIcon tool1 = new ToolIcon('@', toolPane, "Images/player.PNG");
         tool1.setSelected(true);
         setTool(tool1);
-        ToolIcon tool2 = new ToolIcon('4', toolPane, "Images/peepoJump50.png");
-        ToolIcon tool3 = new ToolIcon('3', toolPane, "Images/peepoRun50.png");
-        ToolIcon tool4 = new ToolIcon('2', toolPane, "Images/pepeCoin60.png");
-        ToolIcon tool5 = new ToolIcon('#', toolPane, "Images/platform.png");
-        ToolIcon tool6 = new ToolIcon(' ', toolPane, "Images/ohno.png");
-        ToolIcon tool7 = new ToolIcon('1', toolPane, "Images/winPlatform.png");
+        ToolIcon tool2 = new ToolIcon('4', toolPane, "Images/peepoJump50.PNG");
+        ToolIcon tool3 = new ToolIcon('3', toolPane, "Images/peepoRun50.PNG");
+        ToolIcon tool4 = new ToolIcon('2', toolPane, "Images/pepeCoin60.PNG");
+        ToolIcon tool5 = new ToolIcon('#', toolPane, "Images/platform.PNG");
+        ToolIcon tool6 = new ToolIcon(' ', toolPane, "Images/ohno.PNG");
+        ToolIcon tool7 = new ToolIcon('1', toolPane, "Images/winPlatform.PNG");
 
         toolPane.getChildren().addAll( tool1, tool2, tool3, tool4, tool5, tool6, tool7);
         toolPane.getStyleClass().add(TOOL_SELECT);
@@ -77,7 +87,7 @@ public class EditorPane extends BorderPane {
         lvlName.getStyleClass().add(LVL_INPUT_NAME);
 
         Button finishBtn = new Button("Finish");
-        finishBtn.setOnAction(e-> saveLevel(grid, lvlName.getText()));
+        finishBtn.setOnAction(e-> saveLevel(grid, lvlName.getText(), grid));
 
         ScrollPane gridParent = new ScrollPane();
         gridParent.setContent(grid);
@@ -93,43 +103,51 @@ public class EditorPane extends BorderPane {
     }
 
     public static void setBackground(Icon node, String path){
-        try {
             node.setBackground(
                 new Background(new BackgroundImage(
-                new Image(new FileInputStream(path)),
+                new Image(Objects.requireNonNull(EditorPane.class.getClassLoader().getResourceAsStream(path))),
                 BackgroundRepeat.NO_REPEAT,BackgroundRepeat.NO_REPEAT
                 ,BackgroundPosition.CENTER, new BackgroundSize(TileSize, TileSize,false,false,true,true)
             )));
-        }catch (FileNotFoundException FNFexc){
-            FNFexc.printStackTrace();
-        }
     }
 
     public static void setTool(ToolIcon tool){selectedTool = tool;}
     public static ToolIcon getTool(){return selectedTool;}
 
-    private void saveLevel(GridPane pane, String lvlName){
+    private void saveLevel(GridPane pane, String lvlName, GridPane gp){
         try {
-            Stream<Path> files = Files.list(Paths.get("Levels"));
-            int amtLevels = (int) files.count();
+            URI uri = Objects.requireNonNull(LevelsPane.class.getResource("/Levels")).toURI();
+            Path myPath = Meth.getLevelPath(uri);
             String name = lvlName;
-            if (name.equals(""))
+            if (name.equals("")) {
+                Stream<Path> walk = Files.walk(myPath, 1);
+                int amtLevels = 1;
+                for (Iterator<Path> it = walk.iterator(); it.hasNext();){
+                    amtLevels++;
+                    it.next();
+                }
                 name = ""+amtLevels;
-            FileWriter file = new FileWriter("Levels/"+amtLevels+"Lv."+name+".txt");
+            }
+
+            FileWriter file = new FileWriter(myPath+"/Lv."+name+".txt");
             PrintWriter pWriter = new PrintWriter(file);
 
             GridIcon icon;
+            String lvlData ="";
+            int count = 0;
             for (int i = 0; i < RowNum ; i++)    {
                 for (int j = 0; j < ColumnNum; j++) {
-                    icon = (GridIcon) Methods.getNodeByRowColumnIndex(i,j,pane);
-                    pWriter.print(icon.getIdentifier());
+                    icon = (GridIcon) gp.getChildren().get(j+count*ColumnNum);
+                    lvlData += icon.getIdentifier();
                 }
-                pWriter.println();
+                count++;
+                lvlData += "\n";
             }
+            pWriter.print(lvlData);
             System.out.println("Save Successful");
-            Main.setScene(new EditorPane());
+            clearGrid(pane);
             pWriter.close();
-        } catch (IOException IOexc) {
+        } catch (IOException | URISyntaxException IOexc) {
             IOexc.printStackTrace();
         }
     }
@@ -144,6 +162,18 @@ public class EditorPane extends BorderPane {
                 sp.setHvalue(hvalue + -deltaY/width); // deltaY/width to make the scrolling equally fast regardless of the actual width of the component
             }
         });
+    }
+
+    public void clearGrid(Pane p){
+        for (Node t: p.getChildren()) {
+            Icon gi = (GridIcon) t;
+            if(gi.isSelected()) {
+                gi.setSelected(false);
+            }
+            gi.setBackground(Background.EMPTY);
+            gi.setIdentifier(' ');
+            gi.setBorder(Icon.gridBorder);
+        }
     }
 
 }
