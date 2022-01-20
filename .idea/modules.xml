@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/peepoSideScrollerV2.iml" filepath="$PROJECT_DIR$/peepoSideScrollerV2.iml" />
+      <module fileurl="file://$PROJECT_DIR$/peepoSideScroller.iml" filepath="$PROJECT_DIR$/peepoSideScroller.iml" />
     </modules>
   </component>
 </project>

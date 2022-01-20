@@ -1,6 +1,5 @@
 package LevelPlayer;
 
-import LevelEditor.EditorPane;
 import MainMenu.Main;
 import MainMenu.Meth;
 import Units.Player;
@@ -21,12 +20,11 @@ import java.util.*;
 
 public class GamePane extends Pane {
 
-    private static Pane rootPane;
     private static Pane uiPane = new Pane();
     private static HBox coinScore = new HBox();
     public static Text score;
     private final int tileSize = 50;
-    private Player player;
+    private final Player player;
 
     private static GameUpdate gameUpdate;
     private ArrayList<Platform> platforms;
@@ -34,109 +32,108 @@ public class GamePane extends Pane {
     ImageView background;
     String path;
     public GamePane(String path, Pane rpane){
-//        try {
+
         this.path = path;
-            uiPane = new Pane();
-            coinScore = new HBox();
-            rootPane = rpane;
-            background = new ImageView(new Image (
-                    Objects.requireNonNull(getClass().getClassLoader().
-                    getResourceAsStream( "Images/valentineMapBig.PNG"))));
-            background.setX(0);
-            background.setX(0);
-            player = new Player();
-            getChildren().addAll(background, player);
-            Image coinImg, speedImg, jumpImg;
-            platforms = new ArrayList<>();
-            coins = new ArrayList<>();
-            speeds = new ArrayList<>();
-            jumps = new ArrayList<>();
-            coinImg = new Image (
-                    Objects.requireNonNull(getClass().getClassLoader().
-                            getResourceAsStream("Images/pepeCoin60.PNG")));
-            speedImg = new Image (
-                    Objects.requireNonNull(getClass().getClassLoader().
-                            getResourceAsStream("Images/peepoRun50.PNG")));
-            jumpImg = new Image (
-                    Objects.requireNonNull(getClass().getClassLoader().
-                            getResourceAsStream("Images/peepoJump50.PNG")));
+        uiPane = new Pane();
+        coinScore = new HBox();
+        background = new ImageView(new Image (
+            Objects.requireNonNull(getClass().getClassLoader().
+            getResourceAsStream( "Images/valentineMapBig.PNG")))
+        );
+        background.setX(0);
+        background.setX(0);
+        player = new Player();
+        getChildren().addAll(background, player);
+        Image coinImg, speedImg, jumpImg;
+        platforms = new ArrayList<>();
+        coins = new ArrayList<>();
+        speeds = new ArrayList<>();
+        jumps = new ArrayList<>();
+        coinImg = new Image (
+            Objects.requireNonNull(getClass().getClassLoader().
+            getResourceAsStream("Images/pepeCoin50.PNG"))
+        );
+        speedImg = new Image (
+            Objects.requireNonNull(getClass().getClassLoader().
+            getResourceAsStream("Images/peepoRun50.PNG"))
+        );
+        jumpImg = new Image (
+            Objects.requireNonNull(getClass().getClassLoader().
+            getResourceAsStream("Images/peepoJump50.PNG"))
+        );
 
-            gameUpdate = new GameUpdate(player,this);
+        gameUpdate = new GameUpdate(player,this);
 
-            ArrayList<String> lines = new ArrayList<>();
-            int width = 0;
-            int height = 0;
-            try {
-                InputStream in = new FileInputStream(path);
-                BufferedReader reader = new BufferedReader(new InputStreamReader(in));
+//        Reads specified file and constructs the level based in the txt file characters.
+        ArrayList<String> lines = new ArrayList<>();
+        int width = 0;
+        int height = 0;
+        try {
+            InputStream in = new FileInputStream(path);
+            BufferedReader reader = new BufferedReader(new InputStreamReader(in));
 
-                while (true) {
-                    String line = reader.readLine();
-                    if (line == null) {
-                        reader.close();
-                        break;
-                    }
-                    lines.add(line);
-                    width = Math.max(width, line.length());
-                    height++;
+            while (true) {
+                String line = reader.readLine();
+                if (line == null) {
+                    reader.close();
+                    break;
                 }
-            }catch (IOException IOexc){
-                IOexc.printStackTrace();
-                System.out.println("REEEEEEEEEEEEEEEEEEE");
+                lines.add(line);
+                width = Math.max(width, line.length());
+                height++;
             }
+        }catch (IOException IOexc){
+            IOexc.printStackTrace();
+        }
 
-            height = lines.size();
-            for (int y = 0; y<height; y++){
-                String line = lines.get(y);
-                for (int x = 0; x < line.length(); x++){
-                    char ch = line.charAt(x);
-                    int tile = ch - 'A';
-                    if (tile>=0 && tile < lines.size()){
-                        break;
-                    }
-                    else{
-                        switch (ch) {
-                            case '#' -> platforms.add(new Platform(
-                                    x * tileSize, y * tileSize, tileSize, tileSize, Color.DARKOLIVEGREEN));
-                            case '1' -> platforms.add(0, new Platform(
-                                        x * tileSize, y * tileSize, tileSize, tileSize, Color.GOLD));
-                            case '2' -> coins.add(new PowerUp(x * tileSize, y * tileSize, coinImg,  PowerUpType.Coin));
-                            case '3' -> speeds.add(new PowerUp(x * tileSize, y * tileSize, speedImg,16, 120, PowerUpType.Speed));
-                            case '4' -> jumps.add(new PowerUp(x * tileSize, y * tileSize, jumpImg,50, 120, PowerUpType.Jump));
-                            case '@' -> {player.setY(0);  player.setX(0);}
-                        }
+        height = lines.size();
+        for (int y = 0; y<height; y++){
+            String line = lines.get(y);
+            for (int x = 0; x < line.length(); x++){
+                char ch = line.charAt(x);
+                int tile = ch - 'A';
+                if (tile>=0 && tile < lines.size()){
+                    break;
+                }
+                else{
+                    switch (ch) {
+                        case '#' -> platforms.add(new Platform(
+                                x * tileSize, y * tileSize, tileSize, tileSize, Color.DARKOLIVEGREEN));
+                        case '1' -> platforms.add(0, new Platform(
+                                    x * tileSize, y * tileSize, tileSize, tileSize, Color.GOLD));
+                        case '2' -> coins.add(new PowerUp(x * tileSize, y * tileSize, coinImg,  PowerUpType.Coin));
+                        case '3' -> speeds.add(new PowerUp(x * tileSize, y * tileSize, speedImg,16, 120, PowerUpType.Speed));
+                        case '4' -> jumps.add(new PowerUp(x * tileSize, y * tileSize, jumpImg,50, 120, PowerUpType.Jump));
+                        case '@' -> {player.setTranslateY(y * tileSize);  player.setTranslateX(x * tileSize);}
                     }
                 }
             }
+        }
 
-            for (PowerUp coin : coins) {
-                getChildren().add(coin);
-            }
-            for (PowerUp speed : speeds) {
-                getChildren().add(speed);
-            }
-            for (PowerUp jump : jumps) {
-                getChildren().add(jump);
-            }
-            for (Platform platform : platforms) {
-                getChildren().add(platform);
-            }
+        for (PowerUp coin : coins) {
+            getChildren().add(coin);
+        }
+        for (PowerUp speed : speeds) {
+            getChildren().add(speed);
+        }
+        for (PowerUp jump : jumps) {
+            getChildren().add(jump);
+        }
+        for (Platform platform : platforms) {
+            getChildren().add(platform);
+        }
 
-            moveView();
-            score = new Text(50,20,""+gameUpdate.getPoints());
-            score.setX(25);
-            score.setY(85);
-            score.setFont(Font.font("Comic Sans", FontWeight.BOLD,30));
-            updateScore();
-            uiPane.getChildren().add(coinScore);
-            rootPane.getChildren().addAll(this, uiPane);
-            setWidth(width*50);
-            setHeight(height*50);
-            gameUpdate.start();
-
-//        } catch (IOException FNFexc){
-//            FNFexc.printStackTrace();
-//        }
+        moveView();
+        score = new Text(50,20,""+gameUpdate.getPoints());
+        score.setX(25);
+        score.setY(85);
+        score.setFont(Font.font("Comic Sans", FontWeight.BOLD,30));
+        updateScore();
+        uiPane.getChildren().add(coinScore);
+        rpane.getChildren().addAll(this, uiPane);
+        setWidth(width*50);
+        setHeight(height*50);
+        gameUpdate.start();
     }
 
     private void moveView() {

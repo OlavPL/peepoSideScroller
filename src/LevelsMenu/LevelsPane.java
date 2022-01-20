@@ -48,10 +48,10 @@ public class LevelsPane extends BorderPane {
                     it.next();
                 Path lvlPath = it.next().getFileName();
                 String s = lvlPath.toString();
-                System.out.println(s);
-                File f = new File(levelDir.toString(),s);
-                if(!f.exists()) {
-                    Files.copy(Path.of(Meth.getLevelPath(uri) + "/" + s), Path.of(levelDir.toString(), s));
+                System.out.println(Meth.getLevelPath(Path.of(myPath.toString(), s).toUri()));
+                if(!Files.exists(Path.of(levelDir+"/"+s))) {
+                    Files.copy(LevelsPane.class.getResourceAsStream("/Levels/"+s),
+                               Path.of(Main.getAppdata(), s));
                 }
             }
         }catch (URISyntaxException | IOException URISexc){

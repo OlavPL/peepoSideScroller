@@ -1,6 +1,5 @@
 package LevelEditor;
 
-import LevelsMenu.LevelsPane;
 import MainMenu.Meth;
 import MainMenu.Main;
 import MainMenu.MainMenuWindow;
@@ -14,8 +13,6 @@ import javafx.scene.image.Image;
 import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.*;
 import java.io.*;
-import java.net.URI;
-import java.net.URISyntaxException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Iterator;
@@ -29,9 +26,9 @@ import lombok.Setter;
 @Setter
 
 public class EditorPane extends BorderPane {
-    private final static int TileSize = 40;
-    private static int ColumnNum = 200;
-    private static int RowNum = 60;
+    private final static int TILE_SIZE = 40;
+    private static int columnNum = 200;
+    private static int rowNum = 60;
     private static ToolIcon selectedTool;
     private static final String TOOL_SELECT = "tool-select";
     private static final String LVL_INPUT_NAME = "lvl-input-name";
@@ -40,8 +37,9 @@ public class EditorPane extends BorderPane {
         VBox left = new VBox();
         TilePane toolPane = new TilePane();
         toolPane.setPrefColumns(1);
+        toolPane.setMaxWidth(99);
 
-        Button exitBtn = new Button("Exit");
+        Button exitBtn = new Button("Main Menu");
         exitBtn.setOnAction(e-> Main.setScene(new MainMenuWindow()));
 
         ToolIcon tool1 = new ToolIcon('@', toolPane, "Images/player.PNG");
@@ -49,7 +47,7 @@ public class EditorPane extends BorderPane {
         setTool(tool1);
         ToolIcon tool2 = new ToolIcon('4', toolPane, "Images/peepoJump50.PNG");
         ToolIcon tool3 = new ToolIcon('3', toolPane, "Images/peepoRun50.PNG");
-        ToolIcon tool4 = new ToolIcon('2', toolPane, "Images/pepeCoin60.PNG");
+        ToolIcon tool4 = new ToolIcon('2', toolPane, "Images/pepeCoin50.PNG");
         ToolIcon tool5 = new ToolIcon('#', toolPane, "Images/platform.PNG");
         ToolIcon tool6 = new ToolIcon(' ', toolPane, "Images/ohno.PNG");
         ToolIcon tool7 = new ToolIcon('1', toolPane, "Images/winPlatform.PNG");
@@ -57,19 +55,18 @@ public class EditorPane extends BorderPane {
         toolPane.getChildren().addAll( tool1, tool2, tool3, tool4, tool5, tool6, tool7);
         toolPane.getStyleClass().add(TOOL_SELECT);
 
-
         GridPane grid = new GridPane();
         grid.setBackground(new Background(new BackgroundFill(Color.LIGHTBLUE, CornerRadii.EMPTY, Insets.EMPTY)));
         grid.setVgap(0);
         grid.setHgap(0);
 
-        for (int i = 0; i <ColumnNum; i++) {
-            grid.getColumnConstraints().add(new ColumnConstraints(TileSize));
+        for (int i = 0; i < columnNum; i++) {
+            grid.getColumnConstraints().add(new ColumnConstraints(TILE_SIZE));
         }
-        for (int i = 0; i < RowNum ; i++) {
-            grid.getRowConstraints().add(new RowConstraints(TileSize));
-            for (int j = 0; j < ColumnNum; j++) {
-                GridIcon tempIcon = new GridIcon(' ', grid, TileSize);
+        for (int i = 0; i < rowNum; i++) {
+            grid.getRowConstraints().add(new RowConstraints(TILE_SIZE));
+            for (int j = 0; j < columnNum; j++) {
+                GridIcon tempIcon = new GridIcon(' ', grid, TILE_SIZE);
                 tempIcon.setBorder(Icon.gridBorder);
                 grid.add(tempIcon, j, i);
             }
@@ -91,7 +88,7 @@ public class EditorPane extends BorderPane {
         });
         setupHorizontalScrolling(gridParent);
 
-        left.getChildren().addAll(exitBtn, toolPane, lvlName, finishBtn);
+        left.getChildren().addAll(exitBtn, lvlName, toolPane, finishBtn);
         setLeft(left);
         setCenter(gridParent);
     }
@@ -101,7 +98,7 @@ public class EditorPane extends BorderPane {
                 new Background(new BackgroundImage(
                 new Image(Objects.requireNonNull(EditorPane.class.getClassLoader().getResourceAsStream(path))),
                 BackgroundRepeat.NO_REPEAT,BackgroundRepeat.NO_REPEAT
-                ,BackgroundPosition.CENTER, new BackgroundSize(TileSize, TileSize,false,false,true,true)
+                ,BackgroundPosition.CENTER, new BackgroundSize(TILE_SIZE, TILE_SIZE,false,false,true,true)
             )));
     }
 
@@ -130,9 +127,9 @@ public class EditorPane extends BorderPane {
             GridIcon icon;
             String lvlData ="";
             int count = 0;
-            for (int i = 0; i < RowNum ; i++)    {
-                for (int j = 0; j < ColumnNum; j++) {
-                    icon = (GridIcon) gp.getChildren().get(j+count*ColumnNum);
+            for (int i = 0; i < rowNum; i++)    {
+                for (int j = 0; j < columnNum; j++) {
+                    icon = (GridIcon) gp.getChildren().get(j+count* columnNum);
                     lvlData += icon.getIdentifier();
                 }
                 count++;
@@ -170,5 +167,4 @@ public class EditorPane extends BorderPane {
             gi.setBorder(Icon.gridBorder);
         }
     }
-
 }

@@ -22,6 +22,12 @@ public class GridIcon extends Icon{
                     ti.setSelected(false);
                 }
                 ti.setBorder(gridBorder);
+                if(ti.getIdentifier() == '1' || ti.getIdentifier() == '@') {
+                    if (ti.getIdentifier() == this.getIdentifier()) {
+                        ti.setBackground(Background.EMPTY);
+                        ti.setIdentifier(' ');
+                    }
+                }
             }
         }
     }
@@ -29,7 +35,6 @@ public class GridIcon extends Icon{
     @Override
     protected void onClick(Pane p){
         setOnMousePressed(e -> {
-        select(p.getChildren());
         setBorder(selectedBorder);
         if(EditorPane.getTool().getIdentifier() == ' '){
             this.setBackground(Background.EMPTY);
@@ -38,6 +43,7 @@ public class GridIcon extends Icon{
         }
             EditorPane.setBackground(this, EditorPane.getTool().getImagePath());
             this.setIdentifier(EditorPane.getTool().getIdentifier());
+            select(p.getChildren());
         });
     }
 }

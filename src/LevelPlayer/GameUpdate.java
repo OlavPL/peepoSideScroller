@@ -130,7 +130,7 @@ public class GameUpdate extends AnimationTimer {
     }
 
     //X-axis player logic
-    private void playerMoveX(int value, GamePane pane){
+    private void playerMoveX(float value, GamePane pane){
         boolean movingRight = value > 0;
         boolean movingLeft = value < 0;
         if (movingRight){
@@ -202,7 +202,7 @@ public class GameUpdate extends AnimationTimer {
             }
         }
 
-        player.setTranslateY(player.getTranslateY() + (player.isFalling()? 1:-1));
+        player.setTranslateY(player.getTranslateY() + (player.isFalling()? 0.5:-1));
         }
     }
 
