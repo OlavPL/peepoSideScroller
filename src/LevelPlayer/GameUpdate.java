@@ -16,8 +16,7 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Objects;
@@ -25,7 +24,7 @@ import java.util.Objects;
 public class GameUpdate extends AnimationTimer {
     private HashMap<KeyCode, Boolean> keys = new HashMap<>();
     private final Player player;
-    private final GamePane pane;
+    private final GamePane gamePane;
 
     private Text endGameText;
     private Text endGameText2;
@@ -43,7 +42,7 @@ public class GameUpdate extends AnimationTimer {
     public GameUpdate (Player player, GamePane pane){
         super();
         points = 0;
-        this.pane = pane;
+        this.gamePane = pane;
         this.player = player;
             ohno = new ImageView(new Image(
                     Objects.requireNonNull(getClass().getClassLoader().
@@ -87,7 +86,7 @@ public class GameUpdate extends AnimationTimer {
     @Override
     public void handle(long currentNanoTime) {
         try {
-            update(pane);
+            update(gamePane);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -130,7 +129,7 @@ public class GameUpdate extends AnimationTimer {
     }
 
     //X-axis player logic
-    private void playerMoveX(int value, GamePane pane){
+    private void playerMoveX(float value, GamePane pane){
         boolean movingRight = value > 0;
         boolean movingLeft = value < 0;
         if (movingRight){
@@ -202,7 +201,7 @@ public class GameUpdate extends AnimationTimer {
             }
         }
 
-        player.setTranslateY(player.getTranslateY() + (player.isFalling()? 1:-1));
+        player.setTranslateY(player.getTranslateY() + (player.isFalling()? 0.5:-1));
         }
     }
 
@@ -210,7 +209,7 @@ public class GameUpdate extends AnimationTimer {
         try {
             for (PowerUp pp : al) {
                 if (player.getBoundsInParent().intersects(pp.getX(), pp.getY(), pp.getSize(), pp.getSize())) {
-                    pp.givePower(player);
+                    givePower(player, pp);
                     removePowerUp(pane, pp);
                 }
             }
@@ -221,10 +220,10 @@ public class GameUpdate extends AnimationTimer {
     }
 
     public void win() {
-        pane.setLayoutX(0);
-        pane.setLayoutY(0);
+        gamePane.setLayoutX(0);
+        gamePane.setLayoutY(0);
         stop();
-        pane.getChildren().clear();
+        gamePane.getChildren().clear();
 
         endGameText = new Text(10,50,"You won!");
         endGameText.setTranslateX(740); endGameText.setTranslateY(200);
@@ -239,22 +238,22 @@ public class GameUpdate extends AnimationTimer {
         endGameText2.setStroke(Color.BLACK);
 
         wonTimer.start();
-        pane.getChildren().addAll(wBGIV,peepoHappy, endGameText, endGameText2);
+        gamePane.getChildren().addAll(wBGIV,peepoHappy, endGameText, endGameText2);
         againButton("Let's GO AGANE");
     }
 
     public void lose(){
-        pane.setLayoutX(0);
-        pane.setLayoutY(0);
+        gamePane.setLayoutX(0);
+        gamePane.setLayoutY(0);
         stop();
-        pane.getChildren().clear();
+        gamePane.getChildren().clear();
 
         endGameText = new Text(10,50,"Ohno, you did a lost");
         endGameText.setTranslateX(500);
         endGameText.setTranslateY(200);
         endGameText.setFont(new Font("comic sans", 100));
         endGameText.setFill(Color.DARKBLUE);
-        pane.getChildren().addAll(lBGIV,ohno, endGameText);
+        gamePane.getChildren().addAll(lBGIV,ohno, endGameText);
         againButton("Go Agane");
         lostTimer.start();
     }
@@ -282,7 +281,7 @@ public class GameUpdate extends AnimationTimer {
         levelsbtn.setOnAction(e-> Main.setScene(new LevelsPane()));
         mainMenubtn.setOnAction(e-> Main.setScene(new MainMenuWindow()));
 
-        pane.getChildren().addAll(tryAgain, levelsbtn, mainMenubtn);
+        gamePane.getChildren().addAll(tryAgain, levelsbtn, mainMenubtn);
     }
 
 
@@ -304,16 +303,16 @@ public class GameUpdate extends AnimationTimer {
 //            e.printStackTrace();
 //        }
 
-        pane.restartLevel();
+        gamePane.restartLevel();
     }
 
 
 
     public int getPoints(){return points;}
-    public static void addPoint(PowerUp pp){
+    public void addPoint(PowerUp pp){
         points++;
-        GamePane.updateScore();
-        GamePane.getCoinScore().getChildren().add(pp);
+        gamePane.updateScore();
+        gamePane.getCoinScore().getChildren().add(pp);
     }
 
     public void removePowerUp(GamePane pane, PowerUp pp){
@@ -331,6 +330,24 @@ public class GameUpdate extends AnimationTimer {
                 player.setVelocity(new Point2D(0,10));
             }
         });
+    }
+
+    public void givePower(Player player, PowerUp pp){
+        switch (pp.getType()){
+            case Speed -> {
+                gamePane.Speeds().remove(pp);
+                player.speedPowerUp(pp.getDuration(), pp.getSpeed());
+            }
+
+            case Jump -> {
+                gamePane.Jumps().remove(pp);
+                player.jumpPowerUp(pp.getDuration(), pp.getSpeed());
+            }
+            case Coin -> {
+                gamePane.Coins().remove(pp);
+                addPoint(pp);
+            }
+        }
     }
 }
 

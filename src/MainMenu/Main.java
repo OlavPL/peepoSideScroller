@@ -4,6 +4,7 @@ import LevelPlayer.GamePane;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
+import javafx.stage.Screen;
 import javafx.stage.Stage;
 import java.io.File;
 
@@ -14,11 +15,13 @@ public class Main extends Application {
     private static String appdata;
     @Override
     public void start(Stage stage){
-        stage.setHeight(600);
-        stage.setWidth(600);
+        stage.setMaxWidth(Screen.getPrimary().getBounds().getWidth());
+        stage.setMaxHeight(Screen.getPrimary().getBounds().getHeight());
+        stage.setMaximized(true);
+
         pStage = stage;
 
-        appdata = System.getProperty("user.home")+"/Appdata/Roaming/peepoSideScrollerV2";
+        appdata = System.getProperty("user.home")+"/Appdata/Roaming/peepoSideScroller";
         File levelDir = new File(appdata);
         if (!levelDir.exists()){
             levelDir.mkdirs();
@@ -26,7 +29,6 @@ public class Main extends Application {
 
         scene = new Scene(new MainMenuWindow());
         scene.getStylesheets().add("application.css");
-//        scene.getStylesheets().add(Objects.requireNonNull(getClass().getResource("../application.css").toExternalForm()));
         Meth.setFillStage(stage);
         stage.setScene(scene);
         stage.setTitle("EpicGame");

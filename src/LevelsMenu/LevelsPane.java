@@ -11,7 +11,6 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.TilePane;
 import javafx.scene.text.Font;
-
 import java.io.File;
 import java.io.IOException;
 import java.net.URI;
@@ -48,10 +47,12 @@ public class LevelsPane extends BorderPane {
                     it.next();
                 Path lvlPath = it.next().getFileName();
                 String s = lvlPath.toString();
-                System.out.println(s);
-                File f = new File(levelDir.toString(),s);
-                if(!f.exists()) {
-                    Files.copy(Path.of(Meth.getLevelPath(uri) + "/" + s), Path.of(levelDir.toString(), s));
+                System.out.println(Meth.getLevelPath(Path.of(myPath.toString(), s).toUri()));
+                if(!Files.exists(Path.of(levelDir+"/"+s))) {
+                        Files.copy(Objects.requireNonNull(
+                        LevelsPane.class.getResourceAsStream("/Levels/" + s)),
+                        Path.of(Main.getAppdata(), s)
+                    );
                 }
             }
         }catch (URISyntaxException | IOException URISexc){
@@ -68,7 +69,6 @@ public class LevelsPane extends BorderPane {
         mainMenu.setOnAction(e-> {
             Main.setScene(new MainMenuWindow());
         });
-
 
         setTop(top);
         setCenter(levelPane);

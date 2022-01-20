@@ -6,7 +6,7 @@ import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 
 public class LvlThumbnail extends BorderPane {
-    private static final Border lvlBorder = new Border(new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(2)));
+    private final Border lvlBorder = new Border(new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(2)));
 
     public LvlThumbnail(String fileName) {
         super();

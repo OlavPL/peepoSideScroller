@@ -3,17 +3,21 @@ package Units;
 import LevelPlayer.GamePane;
 import LevelPlayer.GameUpdate;
 import javafx.scene.image.Image;
+import lombok.Getter;
+import lombok.Setter;
 
+@Getter
+@Setter
 public class PowerUp extends Sprite {
     int size;
     int duration;
     PowerUpType type;
-    int speed;
+    float speed;
 
     public PowerUp(Image i){
         setIV(i);
-        setHeight(60);
-        setWidth(60);
+        setHeight(50);
+        setWidth(50);
         this.speed = 0;
     }
     public PowerUp(Image i, int speed, int duration){
@@ -26,7 +30,7 @@ public class PowerUp extends Sprite {
         this.speed = 0;
         this.setX(x);
         this.setY(y);
-        size = 60;
+        size = 50;
     }
 
     public PowerUp(double x, double y, Image i, int speed, int duration){
@@ -44,24 +48,5 @@ public class PowerUp extends Sprite {
         this(x, y, i, speed, duration);
         this.type = type;
     }
-
-
     public int getSize(){return size;}
-    public void givePower(Player player){
-        switch (type){
-            case Speed -> {
-                GamePane.Speeds().remove(this);
-                player.speedPowerUp(duration, speed);
-            }
-
-            case Jump -> {
-                GamePane.Jumps().remove(this);
-                player.jumpPowerUp(duration, speed);
-            }
-            case Coin -> {
-                GamePane.Coins().remove(this);
-                GameUpdate.addPoint(this);
-            }
-        }
-    }
 }

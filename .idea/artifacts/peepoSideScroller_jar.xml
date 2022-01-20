@@ -1,8 +1,8 @@
 <component name="ArtifactManager">
-  <artifact type="jar" name="peepoSideScrollerV2:jar">
-    <output-path>$PROJECT_DIR$/out/artifacts/peepoSideScrollerV2_jar</output-path>
-    <root id="archive" name="peepoSideScrollerV2.jar">
-      <element id="module-output" name="peepoSideScrollerV2" />
+  <artifact type="jar" name="peepoSideScroller:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/peepoSideScroller_jar</output-path>
+    <root id="archive" name="peepoSideScroller.jar">
+      <element id="module-output" name="peepoSideScroller" />
       <element id="extracted-dir" path="$PROJECT_DIR$/../../../../Program Files/Java/lombok.jar" path-in-jar="/" />
       <element id="extracted-dir" path="$PROJECT_DIR$/../../../../Program Files/Java/javafx-sdk-17.0.1/lib/javafx-swt.jar" path-in-jar="/" />
       <element id="extracted-dir" path="$PROJECT_DIR$/../../../../Program Files/Java/javafx-sdk-17.0.1/lib/javafx.web.jar" path-in-jar="/" />
@@ -12,7 +12,7 @@
       <element id="extracted-dir" path="$PROJECT_DIR$/../../../../Program Files/Java/javafx-sdk-17.0.1/lib/javafx.swing.jar" path-in-jar="/" />
       <element id="extracted-dir" path="$PROJECT_DIR$/../../../../Program Files/Java/javafx-sdk-17.0.1/lib/javafx.controls.jar" path-in-jar="/" />
       <element id="extracted-dir" path="$PROJECT_DIR$/../../../../Program Files/Java/javafx-sdk-17.0.1/lib/javafx.graphics.jar" path-in-jar="/" />
-      <element id="module-source" name="peepoSideScrollerV2" />
+      <element id="module-source" name="peepoSideScroller" />
       <element id="dir-copy" path="$PROJECT_DIR$/resources" />
       <element id="file-copy" path="$PROJECT_DIR$/../../../../Program Files/Java/javafx-sdk-17.0.1/bin/api-ms-win-core-console-l1-1-0.dll" />
       <element id="file-copy" path="$PROJECT_DIR$/../../../../Program Files/Java/javafx-sdk-17.0.1/bin/api-ms-win-core-console-l1-2-0.dll" />
