@@ -17,7 +17,6 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import java.io.*;
-import java.nio.file.Path;
 import java.util.*;
 
 public class GamePane extends Pane {
@@ -68,8 +67,7 @@ public class GamePane extends Pane {
             int width = 0;
             int height = 0;
             try {
-                InputStream in = getClass().getResourceAsStream(path);
-                assert in != null;
+                InputStream in = new FileInputStream(path);
                 BufferedReader reader = new BufferedReader(new InputStreamReader(in));
 
                 while (true) {

@@ -17,7 +17,7 @@ public class MainMenuWindow extends BorderPane {
     public MainMenuWindow (){
         super();
         VBox center = new VBox();
-        center.getChildren().addAll(levelsBtn, createMapBtn, mutebtn);
+        center.getChildren().addAll(levelsBtn, createMapBtn/*, mutebtn*/);
         center.setAlignment(Pos.CENTER);
         center.setSpacing(20);
         Label title = new Label("Main Menu");

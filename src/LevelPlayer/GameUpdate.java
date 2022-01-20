@@ -303,6 +303,7 @@ public class GameUpdate extends AnimationTimer {
 //        } catch (Exception e) {
 //            e.printStackTrace();
 //        }
+
         pane.restartLevel();
     }
 

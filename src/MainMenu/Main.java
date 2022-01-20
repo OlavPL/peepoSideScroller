@@ -5,20 +5,24 @@ import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
-
 import java.io.File;
-import java.nio.file.Path;
-import java.util.Objects;
 
 
 public class Main extends Application {
     private static Scene scene;
     private static Stage pStage;
+    private static String appdata;
     @Override
     public void start(Stage stage){
         stage.setHeight(600);
         stage.setWidth(600);
         pStage = stage;
+
+        appdata = System.getProperty("user.home")+"/Appdata/Roaming/peepoSideScrollerV2";
+        File levelDir = new File(appdata);
+        if (!levelDir.exists()){
+            levelDir.mkdirs();
+        }
 
         scene = new Scene(new MainMenuWindow());
         scene.getStylesheets().add("application.css");
@@ -50,6 +54,7 @@ public class Main extends Application {
     public static Stage getStage(){
         return pStage;
     }
+    public static String getAppdata(){return appdata;}
 
     public static void main(String[] args) {
         launch(args);

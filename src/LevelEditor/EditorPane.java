@@ -1,9 +1,7 @@
 package LevelEditor;
 
 import LevelsMenu.LevelsPane;
-import LevelsMenu.LvlThumbnail;
 import MainMenu.Meth;
-import Methods.Methods;
 import MainMenu.Main;
 import MainMenu.MainMenuWindow;
 import javafx.event.EventHandler;
@@ -18,15 +16,11 @@ import javafx.scene.layout.*;
 import java.io.*;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.nio.file.FileSystems;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.Collections;
 import java.util.Iterator;
 import java.util.Objects;
 import java.util.stream.Stream;
-
 import javafx.scene.paint.Color;
 import lombok.Getter;
 import lombok.Setter;
@@ -116,8 +110,8 @@ public class EditorPane extends BorderPane {
 
     private void saveLevel(GridPane pane, String lvlName, GridPane gp){
         try {
-            URI uri = Objects.requireNonNull(LevelsPane.class.getResource("/Levels")).toURI();
-            Path myPath = Meth.getLevelPath(uri);
+            Path p = Path.of(Main.getAppdata());
+            Path myPath = Meth.getLevelPath(p.toUri());
             String name = lvlName;
             if (name.equals("")) {
                 Stream<Path> walk = Files.walk(myPath, 1);
@@ -126,10 +120,11 @@ public class EditorPane extends BorderPane {
                     amtLevels++;
                     it.next();
                 }
-                name = ""+amtLevels;
+                name = "Lv."+amtLevels;
             }
 
-            FileWriter file = new FileWriter(myPath+"/Lv."+name+".txt");
+            File levelDir = new File(Main.getAppdata());
+            FileWriter file = new FileWriter(Main.getAppdata()+"/"+name+".txt");
             PrintWriter pWriter = new PrintWriter(file);
 
             GridIcon icon;
@@ -144,10 +139,10 @@ public class EditorPane extends BorderPane {
                 lvlData += "\n";
             }
             pWriter.print(lvlData);
-            System.out.println("Save Successful");
+            System.out.println("Save Successful at:"+levelDir.getAbsolutePath()+"/"+name+".txt");
             clearGrid(pane);
             pWriter.close();
-        } catch (IOException | URISyntaxException IOexc) {
+        } catch (IOException IOexc) {
             IOexc.printStackTrace();
         }
     }

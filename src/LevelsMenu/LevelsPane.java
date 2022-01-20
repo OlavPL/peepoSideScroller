@@ -11,6 +11,8 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.TilePane;
 import javafx.scene.text.Font;
+
+import java.io.File;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -33,7 +35,9 @@ public class LevelsPane extends BorderPane {
         levelPane.setVgap(10);
         levelPane.setPadding(new Insets(10));
 
-//        File dir;
+
+        File levelDir = new File(Main.getAppdata());
+
         try {
             URI uri = Objects.requireNonNull(LevelsPane.class.getResource("/Levels")).toURI();
             Path myPath = Meth.getLevelPath(uri);
@@ -42,12 +46,22 @@ public class LevelsPane extends BorderPane {
             for (Iterator<Path> it = walk.iterator(); it.hasNext();){
                 if(kek++ == 1)
                     it.next();
-                levelPane.getChildren().add(
-                    new LvlThumbnail(it.next().getFileName().toString()));
+                Path lvlPath = it.next().getFileName();
+                String s = lvlPath.toString();
+                System.out.println(s);
+                File f = new File(levelDir.toString(),s);
+                if(!f.exists()) {
+                    Files.copy(Path.of(Meth.getLevelPath(uri) + "/" + s), Path.of(levelDir.toString(), s));
+                }
             }
-
         }catch (URISyntaxException | IOException URISexc){
             URISexc.printStackTrace();
+        }
+
+        File[] levelArr = levelDir.listFiles();
+        for (File f: levelArr) {
+            String path = f.getName();
+            levelPane.getChildren().add(new LvlThumbnail(path));
         }
 
         Button mainMenu = new Button("Main Menu");
