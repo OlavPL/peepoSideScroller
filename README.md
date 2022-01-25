@@ -1,8 +1,8 @@
 # peepoSideScroller
-Prototype of a pepe platformer I started for a hackathon. 
+Early version of a pepe-platformer I started for a hackathon in 2021. 
 
-You have to set up javaFX to compile and run.
+You need the java JDK 16 or later installed and run the "peepoSideScroller.jar" file to play.
 
-You can create maps by adding new text files and follow the format in https://github.com/Snickerade/peepoSideScroller/blob/master/maps/map1 .
+You can create levels and play them, comes with 3 weird buildt-in levels.
 
 ![Damn, cant fint the gameplay screenshot](https://github.com/Snickerade/peepoSideScroller/blob/master/images/GamePlayScreenshot.PNG?raw=true)
