@@ -1,6 +1,6 @@
 <component name="ArtifactManager">
   <artifact type="jar" name="peepoSideScroller:jar">
-    <output-path>$PROJECT_DIR$/out/artifacts/peepoSideScroller_jar</output-path>
+    <output-path>$PROJECT_DIR$</output-path>
     <root id="archive" name="peepoSideScroller.jar">
       <element id="module-output" name="peepoSideScroller" />
       <element id="extracted-dir" path="$PROJECT_DIR$/../../../../Program Files/Java/lombok.jar" path-in-jar="/" />

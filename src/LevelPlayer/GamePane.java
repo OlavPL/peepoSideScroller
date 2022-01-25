@@ -27,8 +27,10 @@ public class GamePane extends Pane {
     private final Player player;
 
     private final GameUpdate gameUpdate;
-    private ArrayList<Platform> platforms;
-    private ArrayList<PowerUp> coins, speeds, jumps;
+    private final ArrayList<Platform> platforms;
+    private final ArrayList<PowerUp> coins;
+    private final ArrayList<PowerUp> speeds;
+    private final ArrayList<PowerUp> jumps;
     ImageView background;
     String path;
     public GamePane(String path, Pane rootPane){
@@ -95,7 +97,6 @@ public class GamePane extends Pane {
                 if (tile>=0 && tile < lines.size()){
                     break;
                 }
-                else{
                     switch (ch) {
                         case '#' -> platforms.add(new Platform(
                                 x * tileSize, y * tileSize, tileSize, tileSize, Color.DARKOLIVEGREEN));
@@ -106,7 +107,27 @@ public class GamePane extends Pane {
                         case '4' -> jumps.add(new PowerUp(x * tileSize, y * tileSize, jumpImg,50, 120, PowerUpType.Jump));
                         case '@' -> {player.setTranslateY(y * tileSize);  player.setTranslateX(x * tileSize);}
                     }
-                }
+//                if (ch == '#'){
+//                    platforms.add(new Platform(
+//                            x * tileSize, y * tileSize, tileSize, tileSize, Color.DARKOLIVEGREEN));
+//                }
+//                if (ch =='1'){
+//                    platforms.add(0, new Platform(
+//                            x * tileSize, y * tileSize, tileSize, tileSize, Color.GOLD));
+//                }
+//                if(ch =='2'){
+//                    coins.add(new PowerUp(x * tileSize, y * tileSize, coinImg,  PowerUpType.Coin));
+//                }
+//                if (ch =='3'){
+//                    speeds.add(new PowerUp(
+//                            x * tileSize, y * tileSize, speedImg,16, 120, PowerUpType.Speed));
+//                }
+//                if (ch =='4'){
+//                    jumps.add(new PowerUp(x * tileSize, y * tileSize, jumpImg,50, 120, PowerUpType.Jump));
+//                }
+//                if (ch =='@'){
+//                    player.setTranslateY(y * tileSize);  player.setTranslateX(x * tileSize);
+//                }
             }
         }
 

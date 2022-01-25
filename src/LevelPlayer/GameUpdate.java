@@ -6,6 +6,7 @@ import MainMenu.MainMenuWindow;
 import Units.Platform;
 import Units.Player;
 import Units.PowerUp;
+import Units.PowerUpType;
 import javafx.animation.AnimationTimer;
 import javafx.geometry.Point2D;
 import javafx.scene.Scene;
@@ -303,6 +304,7 @@ public class GameUpdate extends AnimationTimer {
 //            e.printStackTrace();
 //        }
 
+        stop();
         gamePane.restartLevel();
     }
 
@@ -348,6 +350,18 @@ public class GameUpdate extends AnimationTimer {
                 addPoint(pp);
             }
         }
+//        if(pp.getType() == PowerUpType.Speed){
+//            gamePane.Speeds().remove(pp);
+//            player.speedPowerUp(pp.getDuration(), pp.getSpeed());
+//        }
+//        if(pp.getType() == PowerUpType.Jump){
+//            gamePane.Jumps().remove(pp);
+//            player.jumpPowerUp(pp.getDuration(), pp.getSpeed());
+//        }
+//        if(pp.getType() == PowerUpType.Coin){
+//            gamePane.Coins().remove(pp);
+//            addPoint(pp);
+//        }
     }
 }
 
