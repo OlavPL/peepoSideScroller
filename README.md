@@ -5,5 +5,7 @@ You need the java JDK 16 or later installed and run the "peepoSideScroller.jar" 
 
 You can create levels and play them, comes with 3 weird buildt-in levels.
 
+Link to the jar only: https://bjelko.net/peepoSideScroller.jar
+
 ![Damn, cant fint the gameplay screenshot](https://github.com/OlavPL/peepoSideScroller/blob/master/resources/Images/GamePlayScreenshot.PNG?raw=true)
 ![Damn, cant fint the level creation screenshot](https://github.com/OlavPL/peepoSideScroller/blob/master/resources/Images/CreateLevelPreivew.PNG?raw=true)
