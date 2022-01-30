@@ -1,6 +1,8 @@
 # peepoSideScroller
 Early version of a pepe-platformer I started for a hackathon in 2021. 
 
+Hit the last Yellow Cube to win
+
 You need the java JDK 16 or later installed and run the "peepoSideScroller.jar" file to play.
 
 You can create levels and play them, comes with 3 weird buildt-in levels.
