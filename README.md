@@ -10,6 +10,7 @@ You can create levels and play them, comes with 3 weird buildt-in levels.
 Link to JDK download: https://www.oracle.com/java/technologies/javase/jdk17-archive-downloads.html
 
 To run in IDE, configure java version, javafx and lombok
+
 Link to Lombok download: https://projectlombok.org/download
 
 ![Damn, cant fint the gameplay screenshot](https://github.com/OlavPL/peepoSideScroller/blob/master/resources/Images/GamePlayScreenshot.PNG?raw=true)
